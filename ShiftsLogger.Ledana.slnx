@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="ShiftsLoggerAPI.Ledana/ShiftsLoggerAPI.Ledana.csproj" />
+  <Project Path="ShiftsLoggerUI.Ledana/ShiftsLoggerUI.Ledana.csproj" />
+</Solution>

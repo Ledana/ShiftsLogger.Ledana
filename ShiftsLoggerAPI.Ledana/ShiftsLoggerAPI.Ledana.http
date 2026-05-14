@@ -1,0 +1,5 @@
+﻿@ShiftsLoggerAPI.Ledana_HostAddress = https://localhost:7264
+
+GET {{ShiftsLoggerAPI.Ledana_HostAddress}}/employee
+
+###

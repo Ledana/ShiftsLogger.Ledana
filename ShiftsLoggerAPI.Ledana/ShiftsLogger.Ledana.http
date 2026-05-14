@@ -1,0 +1,47 @@
+@ShiftsLogger.Ledana_HostAddress = https://localhost:7264
+
+
+###
+
+POST {{ShiftsLogger.Ledana_HostAddress}}/shift
+Content-Type: application/json
+
+{
+        "StartTime": "2026-04-30T09:30:00", 
+        "EndTime": "2026-04-30T17:30:00", 
+        "EmployeeId": 3
+}
+
+###
+
+GET {{ShiftsLogger.Ledana_HostAddress}}/shift/all
+
+
+###
+
+DELETE {{ShiftsLogger.Ledana_HostAddress}}/shift/26
+
+###
+
+PUT {{ShiftsLogger.Ledana_HostAddress}}/shift/15
+Content-Type: application/json
+
+{
+  "startTime": "2026-04-29T10:30:00",
+  "endTime": "2026-04-29T17:30:00",
+  "workerId": 6
+}
+
+###
+
+PATCH {{ShiftsLogger.Ledana_HostAddress}}/shift/18
+Content-Type: application/json
+
+{
+  "startTime": "2026-05-11T09:30:00"
+}
+
+###
+
+GET {{ShiftsLogger.Ledana_HostAddress}}/shift/14
+###
