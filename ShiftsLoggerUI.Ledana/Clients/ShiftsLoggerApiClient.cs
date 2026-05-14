@@ -29,6 +29,27 @@ internal class ShiftsLoggerApiClient
         }
     }
 
+    internal async Task<List<Employee>?> GetAllEmployees()
+    {
+        try
+        {
+            using HttpClient client = new();
+
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+
+            var employees = await client.GetFromJsonAsync<List<Employee>>("https://localhost:7264/employee");
+
+            return employees;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Getting employees didn't work " + e.Message);
+            return null;
+        }
+    }
+
     internal async Task<string?> CreateShift(ShiftDto shift)
     {
         try

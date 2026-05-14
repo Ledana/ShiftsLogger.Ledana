@@ -11,6 +11,7 @@ namespace ShiftsLoggerUI.Ledana.UI
         {
             bool flag = true;
             Console.WriteLine("Welcome to our app");
+            await shiftService.ViewAllEmployees();
             while (flag)
             {
                 Console.WriteLine("Press any key to view the main menu");

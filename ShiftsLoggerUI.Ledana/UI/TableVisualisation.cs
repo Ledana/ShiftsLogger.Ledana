@@ -56,5 +56,25 @@ Last Name: {shift.Employee.LastName}")
             Console.ReadKey();
             Console.Clear();
         }
+
+        internal static void ShowEmployees(List<Employee>? employees)
+        {
+
+            if (employees is null)
+            {
+                Console.WriteLine("Employees could not be loaded");
+                return;
+            }
+            var table = new Table();
+            table.AddColumn("Id");
+            table.AddColumn("First Name");
+            table.AddColumn("Last Name");
+
+            foreach (var item in employees)
+            {
+                table.AddRow(item.Id.ToString(), item.FirstName, item.LastName);
+            }
+            AnsiConsole.Write(table);
+        }
     }
 }

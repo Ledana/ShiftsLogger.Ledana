@@ -3,7 +3,6 @@ using ShiftsLoggerAPI.Ledana.Models;
 using ShiftsLoggerUI.Ledana.UI;
 using Spectre.Console;
 using System.Globalization;
-using System.Timers;
 
 namespace ShiftsLoggerUI.Ledana.Services
 {
@@ -12,6 +11,13 @@ namespace ShiftsLoggerUI.Ledana.Services
         internal static readonly ShiftsLoggerApiClient shiftsLoggerApiClient = new();
         internal static readonly Helper helper = new();
         internal static Random random = new();
+
+        internal async Task ViewAllEmployees()
+        {
+            var employees = await shiftsLoggerApiClient.GetAllEmployees();
+            
+            TableVisualisation.ShowEmployees(employees);
+        }
 
         //user can add a new shift with an employee id. start of shift will be now
         //and end randomly chosen from a 6 hour to a 12 hour shift
@@ -27,7 +33,7 @@ namespace ShiftsLoggerUI.Ledana.Services
 
             DateTime endTime = DateTime.Now.AddHours(random.Next(4, 12)).AddMinutes(random.Next(1, 60));
             Console.WriteLine($"Shift end at {endTime:HH:mm}\n");
-            
+
             if (await helper.CheckForOverlappingShifts(employeeId, startTime, endTime))
                 return;
 
@@ -151,27 +157,27 @@ namespace ShiftsLoggerUI.Ledana.Services
             while (!isDateRight)
             {
                 if (AnsiConsole.Confirm("Do you want to update start time?"))
-                    {
-                        startTime = helper.GetDateTime("Please put the new Start Time (yyyy-MM-ddTHH:mm:ss)");
-                        if (startTime == DateTime.MinValue) return;
-                        existingStart = (DateTime)startTime;
-                        shiftIsChanging = true;
-                    }
+                {
+                    startTime = helper.GetDateTime("Please put the new Start Time (yyyy-MM-ddTHH:mm:ss)");
+                    if (startTime == DateTime.MinValue) return;
+                    existingStart = (DateTime)startTime;
+                    shiftIsChanging = true;
+                }
 
                 if (AnsiConsole.Confirm("Do you want to update end time?"))
-                    {
-                        endTime = helper.GetDateTime("Please put the new End Time (yyyy-MM-ddTHH:mm:ss)");
-                        if (endTime == DateTime.MinValue) return;
-                        existingEnd = (DateTime)endTime;
-                        shiftIsChanging = true;
+                {
+                    endTime = helper.GetDateTime("Please put the new End Time (yyyy-MM-ddTHH:mm:ss)");
+                    if (endTime == DateTime.MinValue) return;
+                    existingEnd = (DateTime)endTime;
+                    shiftIsChanging = true;
                 }
 
                 if (AnsiConsole.Confirm("Do you want to update employee id?"))
-                    {
-                        employeeId = await helper.GetEmployeeId();
-                        if (employeeId == 0) return;
-                        existingEmployeeId = (int)employeeId;
-                        shiftIsChanging = true;
+                {
+                    employeeId = await helper.GetEmployeeId();
+                    if (employeeId == 0) return;
+                    existingEmployeeId = (int)employeeId;
+                    shiftIsChanging = true;
                 }
 
                 isDateRight = helper.ValidateDateInput(existingStart, existingEnd);
@@ -234,7 +240,7 @@ namespace ShiftsLoggerUI.Ledana.Services
             {
                 var response = await shiftsLoggerApiClient.GetAllShifts(pageNumber, pageSize);
 
-                ViewAllShifts(ref response, ref pageNumber, ref pageSize, ref keepRunning);   
+                ViewAllShifts(ref response, ref pageNumber, ref pageSize, ref keepRunning);
             }
         }
 
@@ -400,12 +406,12 @@ namespace ShiftsLoggerUI.Ledana.Services
                     StringToTimespan(s.Duration)
                     <
                     duration).ToList();
-            
 
-                TableVisualisation.ShowShifts(shiftsBelowDuration);
-                Console.WriteLine("Press any key to continue");
-                Console.ReadKey();
-                Console.Clear();
+
+            TableVisualisation.ShowShifts(shiftsBelowDuration);
+            Console.WriteLine("Press any key to continue");
+            Console.ReadKey();
+            Console.Clear();
         }
 
         internal TimeSpan StringToTimespan(string timeSpan)
